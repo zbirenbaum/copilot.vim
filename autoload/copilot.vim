@@ -190,6 +190,11 @@ let s:filetype_defaults = {
       \ 'hgcommit': 0,
       \ '_': 0}
 
+function! s:FileTypeEnabled(filetype) abort
+  let ft = empty(a:filetype) ? '_' : a:filetype
+  return !empty(get(get(g:, 'copilot_filetypes', {}), ft, get(s:filetype_defaults, ft, 1)))
+endfunction
+
 function! copilot#Enabled() abort
   if !s:TermsAccepted() || !empty(copilot#agent#StartupError())
     return 0
@@ -200,8 +205,7 @@ function! copilot#Enabled() abort
   if get(b:, 'copilot_disabled', 0)
     return 0
   endif
-  let ft = empty(&filetype) ? '_' : &filetype
-  return !empty(get(get(g:, 'copilot_filetypes', {}), ft, get(s:filetype_defaults, ft, 1)))
+  return s:FileTypeEnabled(&filetype)
 endfunction
 
 function! copilot#Complete(...) abort
@@ -538,12 +542,21 @@ function! s:commands.setup(opts) abort
     call writefile([json_encode(terms)], s:config_root . '/terms.json')
     unlet! s:terms_accepted
   endif
-  if exists('*nvim_buf_get_mark') && has("nvim-0.6")
-    echo 'Copilot: All systems go!'
-  else
+  let success = "Copilot: All systems go!"
+  if !exists('*nvim_buf_get_mark') || !has("nvim-0.6")
     echohl WarningMsg
     echo "Copilot: Neovim nightly build required to support ghost text."
     echohl NONE
+  elseif !get(g:, 'copilot_enabled', 1)
+    echo success . '  Re-enable with :Copilot enable'
+  elseif get(b:, 'copilot_disabled', 0)
+    echo 'Copilot: All systems go!  Disabled for current buffer'
+  elseif !s:FileTypeEnabled(&filetype)
+    echo success . "  Disabled for the file type '" . &filetype . "'"
+  elseif !copilot#Enabled()
+    echo 'Copilot: Something is wrong with enabling/disabling'
+  else
+    echo sucess
   endif
 endfunction
 

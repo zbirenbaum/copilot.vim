@@ -18,6 +18,9 @@ endfunction
 function! s:Write(lines) abort
   let lines = copy(a:lines)
   try
+    if !filewritable(s:log_file)
+      return
+    endif
     call map(lines, { k, L -> type(L) == v:t_func ? call(L, []) : L })
     call writefile(lines, s:log_file, 'a')
   catch

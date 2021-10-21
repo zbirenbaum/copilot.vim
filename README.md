@@ -9,14 +9,21 @@ To learn more about GitHub Copilot, visit copilot.github.com.
 
 ## Getting started
 
-Copilot.vim requires a [recent prerelease build of
-Neovim](https://github.com/neovim/neovim/releases). [Node 12 or
-newer](https://nodejs.org/en/download/) is also required.
+Copilot.vim requires a recent [Neovim prerelease build][]. [Node 12 or
+newer][Node] is also required.
+
+[Neovim prerelease build]: https://github.com/neovim/neovim/releases/tag/nightly
+[Node]: https://nodejs.org/en/download/
 
 Install the plugin by cloning the repository into Neovim's package path (or
 use any package manager):
 
     git clone https://github.com/github/copilot.vim.git \
+      ~/.config/nvim/pack/github/start/copilot.vim
+
+SSH version:
+
+    git clone git@github.com:github/copilot.vim.git \
       ~/.config/nvim/pack/github/start/copilot.vim
 
 To authenticate and enable GitHub Copilot, invoke `:Copilot setup`.
