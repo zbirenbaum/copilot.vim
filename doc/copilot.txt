@@ -1,0 +1,34 @@
+*copilot.txt*  GitHub Copilot - Your AI pair programmer
+
+GETTING STARTED                                 *copilot*
+
+Invoke `:Copilot setup` to authenticate and enable GithHub Copilot.
+
+COMMANDS                                        *:Copilot*
+
+                                                *:Copilot_setup*
+:Copilot setup          Authenticate and enable GitHub Copilot.
+
+                                                *:Copilot_disable*
+:Copilot disable        Globally disable GitHub Copilot inline suggestions.
+
+                                                *:Copilot_enable*
+:Copilot enable         Cancel :Copilot disable.
+
+OPTIONS
+
+                                                *g:copilot_filetypes*
+g:copilot_filetypes     A dictionary mapping file types to their enabled
+                        status.  Example:
+>
+                        let g:copilot_filetypes = {
+                              \ 'python': v:true,
+                              \ 'go': v:false,
+                              \ }
+<
+                                                *b:copilot_disabled*
+b:copilot_disabled      Set to v:true to disable GitHub Copilot for the
+                        current buffer.
+
+
+ vim:tw=78:et:ft=help:norl:
