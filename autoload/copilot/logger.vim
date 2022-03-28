@@ -3,8 +3,9 @@ if exists('g:autoloaded_copilot_log')
 endif
 let g:autoloaded_copilot_log = 1
 
+" let s:log_file = '/home/zach/.config/nvim/lua/custom/utils/copilot/copilot.log'
 if !exists('s:log_file')
-  let s:log_file = tempname() . '-copilot.log'
+  let s:log_file ='/home/zach/.config/nvim/lua/custom/utils/copilot/copilot.log'
   try
     call writefile([], s:log_file)
   catch
@@ -28,9 +29,7 @@ function! s:Write(lines) abort
 endfunction
 
 function! copilot#logger#Trace(...) abort
-  if $COPILOT_AGENT_VERBOSE =~# '^\%(1\|true\)$'
-    call s:Write(a:000)
-  endif
+  call s:Write(a:000)
 endfunction
 
 function! copilot#logger#Debug(...) abort
